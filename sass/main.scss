@@ -1,0 +1,201 @@
+@forward "./reset";
+
+// *** Variables ***
+$color-primary: #fff;
+$color-secondary: #ab5cdb;
+$bg-body-color: #0a0c1c;
+$bg-card-color: #1b1937;
+$box-shadow-color: #171929;
+
+$font-family-primary: "Inter", sans-serif;
+$font-family-secondary: "Lexend Deca", serif;
+
+// *** Mixins ***
+
+// Flexbox
+@mixin flex-settings($justify: center, $align: center, $direction: row) {
+	display: flex;
+	justify-content: $justify;
+	align-items: $align;
+	flex-direction: $direction;
+}
+
+// Fonts
+@mixin font-settings(
+	$size,
+	$weight: normal,
+	$line-height: normal,
+	$family: $font-family-primary,
+	$letter-spacing: null
+) {
+	font-size: $size;
+	font-weight: $weight;
+	line-height: $line-height;
+	font-family: $family;
+
+	@if $letter-spacing != null {
+		letter-spacing: $letter-spacing;
+	}
+}
+
+// Dimensions - width && height
+
+@mixin dimensions($width: null, $height: null) {
+	@if $width != null {
+		width: $width;
+	}
+	@if $height != null {
+		height: $height;
+	}
+}
+
+// *** Main Styles ***
+
+html {
+	@media (max-width: 1150px) {
+		font-size: 50%;
+	}
+
+	@media (max-width: 900px) {
+		font-size: 40%;
+	}
+
+	@media (max-width: 750px) {
+		font-size: 62.5%;
+	}
+}
+
+body {
+	height: 100vh;
+
+	background-color: $bg-body-color;
+	font-family: $font-family-primary;
+
+	@include flex-settings;
+
+	@media (max-width: 750px) {
+		min-height: 120vh;
+		overflow-y: auto;
+	}
+}
+
+.card {
+	@include dimensions(111rem, 44.6rem);
+	display: flex;
+	flex-direction: row-reverse;
+	background-color: $bg-card-color;
+	box-shadow: 0 2rem 2rem -1rem rgba($color: $box-shadow-color, $alpha: 0.2);
+	border-radius: 0.8rem;
+	overflow: hidden;
+
+	@media (max-width: 750px) {
+		@include dimensions(32.7rem, 78rem);
+
+		flex-direction: column;
+	}
+
+	&__box {
+		position: relative;
+		@include dimensions(54rem, null);
+
+		@media (max-width: 750px) {
+			max-width: 100%;
+			margin-bottom: 3rem;
+		}
+
+		&-img {
+			@include dimensions(100%, 100%);
+
+			object-fit: cover;
+		}
+
+		&-overlay {
+			@include dimensions(100%, 100%);
+			position: absolute;
+			top: 0;
+			left: 0;
+			mix-blend-mode: multiply;
+			background-color: $color-secondary;
+			pointer-events: none;
+			opacity: 0.9;
+		}
+	}
+	&__content {
+		@include dimensions(40rem, null);
+
+		color: $color-primary;
+
+		margin: auto 8.6rem auto 8.35rem;
+
+		@include flex-settings(center, null, column);
+
+		@media (max-width: 750px) {
+			@include dimensions(26.4rem, null);
+
+			margin: 0 auto;
+			text-align: center;
+		}
+	}
+
+	&__heading {
+		margin-bottom: 2.5rem;
+		@include font-settings(3.6rem, 700, 4.4rem);
+
+		&-highlight {
+			color: $color-secondary;
+		}
+
+		@media (max-width: 750px) {
+			@include font-settings(2.8rem, 700, 3.2rem);
+			margin-bottom: 1.6rem;
+		}
+	}
+
+	&__description {
+		margin-bottom: 7.2rem;
+		padding-right: 5.6rem;
+		opacity: 0.6;
+		@include font-settings(1.5rem, $line-height: 2.5rem);
+
+		@media (max-width: 750px) {
+			margin-bottom: 4rem;
+			padding-right: 0;
+		}
+	}
+
+	&__social {
+		padding-right: 4.5rem;
+
+		@include flex-settings(space-between);
+
+		@media (max-width: 750px) {
+			padding-right: 0;
+			gap: 2.4rem;
+			@include dimensions(null, 21.6rem);
+
+			@include flex-settings(flex-start, center, column);
+		}
+
+		&-item {
+			display: flex;
+			flex-direction: column;
+			gap: 0.2rem;
+		}
+
+		&-stats {
+			@include font-settings(2.4rem, 700, null);
+		}
+
+		&-label {
+			@include font-settings(
+				1.2rem,
+				normal,
+				2.5rem,
+				$font-family-secondary,
+				0.1rem
+			);
+			text-transform: uppercase;
+			opacity: 0.6;
+		}
+	}
+}
